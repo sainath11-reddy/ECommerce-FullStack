@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
 
 * {
     box-sizing: border-box;
@@ -14,6 +14,7 @@ header {
     padding-bottom:30px;
     background:#777;
     color:white;
+    
 }
 
 
@@ -46,6 +47,29 @@ header li a{
     text-align: center;
     
     
+}
+
+header .latest-album-btn{
+    background-color: inherit;
+    border:1px solid #56CCF2;
+    font-size: 22px;
+    font-weight: 175;
+    color: white;
+    padding: 15px 30px;
+    margin: 10px auto;
+    
+
+}
+header .play-btn{
+    display: block;
+    border-radius: 50%;
+    padding: 1.5rem;
+    background-color: inherit ;
+    border:2px solid #56CCF2;
+    font-size: 1.5rem;
+    color: #56CCF2;
+    font-weight: 200;
+    margin: 10px auto;
 }
 #music-content{
     display: flex;
@@ -116,9 +140,9 @@ header li a{
     justify-content: space-between;
 }
 
-.btn{
+.btn-cart{
     padding:8px;
-    background-color: rgb(16, 239, 213);
+    background-color: #56CCF2;
     color:white;
     font-weight: bold;
     font-size: 1rem;
@@ -141,7 +165,7 @@ header li a{
 }
 
 footer{
-    background-color: blue;
+    background-color: #56CCF2;
     display: flex;
     width:100%;
     margin-top:40px;
@@ -177,4 +201,85 @@ footer .footer-icons{
     display: flex;
     align-items: center;
     justify-content: space-around;
+}
+
+
+.tours {
+    text-align: center;
+    margin:0px auto;
+    padding: 20px 30px;
+    max-width: 900px;
+}
+
+.tours h2{
+    padding: 20px;
+    font-size: 30px;
+    font-family: "Metal Mania";
+    font-weight: bold;
+}
+
+.tour-item{
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    padding: 10px;
+    border-bottom: 1px solid ;
+}
+
+.tour-date{ 
+    width:12%;
+
+}
+.tour-city{
+    width: 25%;
+    color: #777;
+}
+.tour-venue{
+    width: 53%;
+    color:#777;
+}
+
+.buy-tickets-btn{
+    width:20%;
+    background-color:#56ccf2;
+    font-size: 14px;
+    /* padding: 2px 15px; */
+    border-radius: 5px;
+    font-weight:700;
+    color: white;
+    border: none;
+    padding: 7px;
+
+}
+
+.about-container{
+    font-size: 22px;
+    padding:20px 30px;
+    margin:0px auto;
+    max-width: 900px;
+}
+.about-container h2{
+    text-align: center;
+    margin: 20px;
+    font-size: 30px;
+    font-family: "Metal Mania";
+    font-weight: bold;
+}
+.about-items{
+    /* display: flex; */
+}
+
+.about-items img{
+    width:200px;
+    height: 200px;
+    border-radius: 50%;
+    float: left;
+    /* padding: 30px; */
+    margin:20px 50px;
+    
+}
+.about-items p{
+    font-size:17px;
+    margin:20px;
+    color:#777;
 }
