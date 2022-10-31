@@ -267,6 +267,7 @@ footer .footer-icons{
 }
 .about-items{
     /* display: flex; */
+    
 }
 
 .about-items img{
@@ -275,11 +276,142 @@ footer .footer-icons{
     border-radius: 50%;
     float: left;
     /* padding: 30px; */
-    margin:20px 50px;
+    margin-right:20px ;
     
 }
 .about-items p{
     font-size:17px;
     margin:20px;
     color:#777;
+}
+
+#cartTab{
+    
+    margin:0px;
+    position:fixed;
+    right:0;
+    top:50px;
+    background-color: rgb(255,255,255);
+    width:30%;
+    border: 1px solid rgb(177,103,103);
+    min-height:50vh;
+     max-width:900px;
+    padding:20px 30px;
+}
+
+#cartTab h2{
+    /* margin-top:20px;  */
+    /* padding:20px; */
+    margin:20px 0px;
+    padding:0;
+    font-family: "Metal Mania";
+    font-size: 30px;
+}
+.cart-header{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.cart-row {
+    display:flex;
+    /* justify-content: space-around; */
+    font-size: 18px;
+    
+}
+
+.cart-item{
+    width:45%
+}
+
+.cart-item img{
+    /* object-fit: cover;
+    height: 80px; */
+    width:80px;
+    margin-right: 20px;
+    border-radius: 8%;
+}
+
+.cart-price{
+    width:20%
+}
+.cart-quantity{
+    width:35%
+}
+
+
+.cart-column{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid black;
+    margin-right: 1.5em;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+.cart-quantity #quant{
+    width:40px;
+    height: 30px;
+    border: 1px solid rgb(0, 204, 255);
+    border-radius: 8%;
+    outline: none;
+    text-align: center;
+    margin-right: 20px;
+}
+
+.cart-quantity  .remove-btn{
+    color: white;
+    font-weight: bold;
+    background: rgb(231, 76, 76);
+    cursor: pointer;
+    border: none;
+    border-radius: 8%;
+    height: 30px;
+    outline: none;
+    padding: 0px 7px;
+}
+.cart-quantity button:hover{
+    background: rgb(218, 37, 37);;
+}
+.cart-total{
+    display:flex;
+    flex-direction: row-reverse;
+    font-size:1.2rem;
+    margin:20px;
+}
+.cart-total .total-title{
+    margin-right:10px;
+    font-size:1.5rem;
+}
+
+.purchase-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:auto;
+    margin-top: 50px;
+    background: #56CCF2;
+    color:white;
+    font-size:1.2rem;
+    font-weight: bold;
+    border:none;
+    border-radius:8%;
+    padding:12px;
+    cursor: pointer;
+}
+.purchase-btn:hover{
+    background-color:#18acdd;
+}
+
+.cancel{
+    position:absolute;
+    cursor:pointer;
+    color:rgb(121, 117, 117);
+    top:0;
+    right:0;
+    margin:20px;
+    background:none;
+    font-size:16px;
+    font-weight: 700;
+    border:1px solid rgb(121, 117, 117);
+    border-radius:7px;
+    padding:5px;
 }
