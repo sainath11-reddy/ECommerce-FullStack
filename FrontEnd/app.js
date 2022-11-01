@@ -14,13 +14,16 @@ function addToCart(e){
     if(e.target.classList.contains('btn-cart')){
         const parent = e.target.parentElement.parentElement;
         let div = document.createElement('div');
-        let id = String(parent.id);
+        let id = parseInt(parent.id);
         let price= String(e.target.parentElement.firstElementChild.innerHTML);
         let imgSrc = String(parent.children[1].firstElementChild.getAttribute('src'));
         let heading= parent.firstElementChild.innerHTML;
         let text = document.createTextNode(`Your product ${parent.firstElementChild.innerHTML} has been added`);
-        cart.set(id, {price:price,text:heading,img:imgSrc});
-        // console.log(imgSrc)
+        // cart.set(id, {price:price,text:heading,img:imgSrc});
+
+        axios.post('http://localhost:3000/cart',{productId: id, completed:false} ).then(res =>{
+            console.log(res);
+        })
         div.appendChild(text);
         div.style.position = 'fixed';
         div.style.bottom='0';
@@ -42,7 +45,7 @@ function addToCart(e){
 
 function showCart(e){
     e.preventDefault();
-    console.log(e);
+    // console.log(e);
     let total = 0;
     let innerHTML = `<section id='cartTab'class='container' style='display:block'>
     <h2>CART</h2>
@@ -53,7 +56,7 @@ function showCart(e){
     <span class="cart-quantity cart-column">QUANTITY</span>
     </div>
     <div class='cart-items'>`
-    console.log(cart);
+    // console.log(cart);
     for(let item of cart){
         // console.log(item[0])
         innerHTML +=`
@@ -96,9 +99,9 @@ document.addEventListener('DOMContentLoaded',(e)=>{
     axios.get("http://localhost:3000/admin/products").then(obj =>{
         for(let i of obj.data){
             let j =1;
-            console.log(i);
+            // console.log(i);
             if(i.title.indexOf('Album') !== -1){
-                musicDivision.innerHTML +=  `<div id="${i.title}" class="album">
+                musicDivision.innerHTML +=  `<div id="${i.id}" class="album">
             <h2>${i.title}</h2>
             <div class="img-container">
                 <img src="${i.imageURL}" alt="Lite teesko">
@@ -112,7 +115,7 @@ document.addEventListener('DOMContentLoaded',(e)=>{
         </div>`
             }
             else{
-                merchDivision.innerHTML +=  `<div id="merch${j++}" class="merch">
+                merchDivision.innerHTML +=  `<div id="merch${i.id}" class="merch">
                 <h2>${i.title}</h2>
                 <div class="img-container">
                     <img class='img' src="${i.imageURL}" alt="Lite teesko">
