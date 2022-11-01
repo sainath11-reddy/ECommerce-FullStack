@@ -1,8 +1,11 @@
 let music_content = document.getElementById('EcommerceContainer');
 let cart_element = document.querySelector('.header .cart-holder');
 let body = document.querySelector('body');
+let musicDivision = document.getElementById('music-content');
+let merchDivision = document.getElementById('merch-content')
 cart_element.addEventListener('click',showCart);
 music_content.addEventListener('click',addToCart);
+
 let cart = new Map();
 
 function addToCart(e){
@@ -86,8 +89,57 @@ function showCart(e){
                 </div>`
     body.innerHTML =body.innerHTML+innerHTML;
 
-        
-    
-   
-    
 }
+
+document.addEventListener('DOMContentLoaded',(e)=>{
+    e.preventDefault();
+    axios.get("http://localhost:3000/admin/products").then(obj =>{
+        for(let i of obj.data){
+            let j =1;
+            console.log(i);
+            if(i.title.indexOf('Album') !== -1){
+                musicDivision.innerHTML +=  `<div id="${i.title}" class="album">
+            <h2>${i.title}</h2>
+            <div class="img-container">
+                <img src="${i.imageURL}" alt="Lite teesko">
+                
+            </div>
+            <div class="prod-details">
+            <span class="price">$${i.price}</span>
+            <button class="btn-cart">ADD TO CART</button>
+            </div>
+            
+        </div>`
+            }
+            else{
+                merchDivision.innerHTML +=  `<div id="merch${j++}" class="merch">
+                <h2>${i.title}</h2>
+                <div class="img-container">
+                    <img class='img' src="${i.imageURL}" alt="Lite teesko">
+                    
+                </div>
+                <div class="prod-details">
+                <span class="price">$${i.price}</span>
+                <button class="btn-cart">ADD TO CART</button>
+                </div>
+                
+        </div>`
+            }
+            
+        }
+    });
+
+})
+
+/* <div id="album1" class="album">
+                <h2>Album 1</h2>
+                <div class="img-container">
+                    <img src="https://prasadyash2411.github.io/ecom-website/img/Album%201.png" alt="Lite teesko">
+                    
+                </div>
+                <div class="prod-details">
+                <span class="price">$12.99</span>
+                <button class="btn-cart">ADD TO CART</button>
+                </div>
+                
+            </div> */
