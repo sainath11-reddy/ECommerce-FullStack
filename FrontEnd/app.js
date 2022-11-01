@@ -43,8 +43,9 @@ function addToCart(e){
 
 }
 
-function showCart(e){
+async function showCart(e){
     e.preventDefault();
+    
     // console.log(e);
     let total = 0;
     let innerHTML = `<section id='cartTab'class='container' style='display:block'>
@@ -57,16 +58,18 @@ function showCart(e){
     </div>
     <div class='cart-items'>`
     // console.log(cart);
-    for(let item of cart){
+    let cart = await axios.get('http://localhost:3000/cart');
+    // console.log(cart.data)
+    for(let item of cart.data){
         // console.log(item[0])
         innerHTML +=`
-        <div id='cart${item[0]}' class="cart-row">
+        <div id='cart${item.id}' class="cart-row">
             <span class='cart-item cart-column'>
-                <img class ='cart-img' src='${item[1].img}' alt='lie'>
-                 <span>${item[1].text}</span>
+                <img class ='cart-img' src='${item.imgURL}' alt='lie'>
+                 <span>${item.title}</span>
             </span>
             <span class='cart-price cart-column'>
-                ${item[1].price}
+                ${item.price}
             </span>
             <span class='cart-quantity cart-column'>
                 <input type='text' id='quant' value='1'>
@@ -74,8 +77,7 @@ function showCart(e){
             </span>
         </div>
         `;
-        console.log(parseFloat(item[1].price.slice(1)))
-        total = total+ parseFloat(item[1].price.slice(1));
+        total = total+ (item.price);
     }
     // console.log(total.toFixed(2))
 
