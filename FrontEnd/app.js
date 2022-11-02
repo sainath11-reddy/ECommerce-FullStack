@@ -2,10 +2,12 @@ let music_content = document.getElementById('EcommerceContainer');
 let cart_element = document.querySelector('.header .cart-holder');
 let body = document.querySelector('body');
 let musicDivision = document.getElementById('music-content');
-let merchDivision = document.getElementById('merch-content')
+let merchDivision = document.getElementById('merch-content');
+let pageButtonDOM = document.querySelector('#EcommerceContainer .page-btn-section');
 cart_element.addEventListener('click',showCart);
 music_content.addEventListener('click',addToCart);
-
+let currentPage = 1;
+let pageButtons ;
 let cart = new Map();
 
 function addToCart(e){
@@ -96,14 +98,26 @@ async function showCart(e){
 
 }
 
-document.addEventListener('DOMContentLoaded',(e)=>{
+document.addEventListener('DOMContentLoaded',IndexPage);
+
+
+
+function IndexPage(e){
+    
     e.preventDefault();
-    axios.get("http://localhost:3000/admin/products").then(obj =>{
-        for(let i of obj.data){
+    axios.get(`http://localhost:3000/admin/products?page=${currentPage}`).then(obj =>{
+        console.log(currentPage);
+        let page = +obj.data.page || 1;
+        let musicInnerHTML = ``;
+        let merchInnerHTML =``;
+        musicDivision.parentElement.classList.add('notNow')
+        merchDivision.parentElement.classList.add('notNow')
+        for(let i of obj.data.products){
             let j =1;
             // console.log(i);
             if(i.title.indexOf('Album') !== -1){
-                musicDivision.innerHTML +=  `<div id="${i.id}" class="album">
+                musicDivision.parentElement.classList.remove('notNow');
+                musicInnerHTML +=  `<div id="${i.id}" class="album">
             <h2>${i.title}</h2>
             <div class="img-container">
                 <img src="${i.imageURL}" alt="Lite teesko">
@@ -117,7 +131,8 @@ document.addEventListener('DOMContentLoaded',(e)=>{
         </div>`
             }
             else{
-                merchDivision.innerHTML +=  `<div id="merch${i.id}" class="merch">
+                merchDivision.parentElement.classList.remove('notNow');
+                merchInnerHTML +=  `<div id="merch${i.id}" class="merch">
                 <h2>${i.title}</h2>
                 <div class="img-container">
                     <img class='img' src="${i.imageURL}" alt="Lite teesko">
@@ -130,10 +145,34 @@ document.addEventListener('DOMContentLoaded',(e)=>{
                 
         </div>`
             }
+
             
         }
-    });
+        musicDivision.innerHTML = musicInnerHTML;
+        merchDivision.innerHTML = merchInnerHTML;
+        pageButtons = ``
+        if(obj.data.hasPrevious){
+            pageButtons+= `<button class='page-btn'>${page-1}</button>`
+        }
+        pageButtons+=`<button class='page-btn current'  >${page}</button>`
+        if(obj.data.hasNextPage){
+            pageButtons+=`<button class='page-btn'>${page+1}</button>`;
+        }
+        pageButtonDOM.innerHTML = pageButtons;
 
+    }).catch(err => console.log(currentPage));
+
+}
+
+
+pageButtonDOM.addEventListener('click',(e)=>{
+    // e.preventDefault();
+    if(e.target.classList.contains('page-btn')){
+        currentPage = e.target.firstChild.data;
+        console.log(e);
+        IndexPage(e);
+
+    }
 })
 
 /* <div id="album1" class="album">

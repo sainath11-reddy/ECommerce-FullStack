@@ -71,6 +71,10 @@ header .play-btn{
     font-weight: 200;
     margin: 10px auto;
 }
+.notNow{
+    display: none;
+}
+
 #music-content{
     display: flex;
     flex-wrap: wrap;
@@ -414,4 +418,24 @@ footer .footer-icons{
     border:1px solid rgb(121, 117, 117);
     border-radius:7px;
     padding:5px;
+}
+
+
+.page-btn-section{
+    text-align: center;
+    margin-top:20px;
+    padding:10px;
+}
+.page-btn-section .page-btn{
+    margin:5px;
+    padding:10px;
+    font-size: 12px;
+    font-weight: bold;
+    border: #18acdd;
+}
+
+.page-btn:hover{
+    background-color: #18acdd;
+    color: white;
+    cursor: pointer;
 }
