@@ -4,17 +4,23 @@ let body = document.querySelector('body');
 let musicDivision = document.getElementById('music-content');
 let merchDivision = document.getElementById('merch-content');
 let pageButtonDOM = document.querySelector('#EcommerceContainer .page-btn-section');
+let cartItemsDiv = document.querySelector('#cartTab .cart-items');
+let cartPageButtons = document.querySelector('#cartTab .page-btn-section');
+let purchaseButton = document.querySelector('#cartTab .purchase-btn');
 cart_element.addEventListener('click',showCart);
 music_content.addEventListener('click',addToCart);
+
 let currentPage = 1;
+let currentCartPage = 1;
 let pageButtons ;
 let cart = new Map();
-
+    
 function addToCart(e){
     e.preventDefault();
     
     if(e.target.classList.contains('btn-cart')){
         const parent = e.target.parentElement.parentElement;
+        console.log(parent)
         let div = document.createElement('div');
         let id = parseInt(parent.id);
         let price= String(e.target.parentElement.firstElementChild.innerHTML);
@@ -45,24 +51,29 @@ function addToCart(e){
 
 }
 
+
+
 async function showCart(e){
     e.preventDefault();
-    
+    let parentElement = cartItemsDiv.parentElement;
     // console.log(e);
     let total = 0;
-    let innerHTML = `<section id='cartTab'class='container' style='display:block'>
-    <h2>CART</h2>
-    <button class="cancel">X</button>
-    <div class="cart-row cart-header">
-    <span class="cart-item cart-column">ITEM</span>
-    <span class="cart-price cart-column">PRICE</span>
-    <span class="cart-quantity cart-column">QUANTITY</span>
-    </div>
-    <div class='cart-items'>`
-    // console.log(cart);
-    let cart = await axios.get('http://localhost:3000/cart');
-    // console.log(cart.data)
-    for(let item of cart.data){
+    let innerHTML='';
+    // let innerHTML = `<section id='cartTab'class='container' style='display:block'>
+    // <h2>CART</h2>
+    // <button class="cancel">X</button>
+    // <div class="cart-row cart-header">
+    // <span class="cart-item cart-column">ITEM</span>
+    // <span class="cart-price cart-column">PRICE</span>
+    // <span class="cart-quantity cart-column">QUANTITY</span>
+    // </div>
+    // <div class='cart-items'>`
+    // console.log(cartItemsDiv);
+    
+    let cart = await axios.get(`http://localhost:3000/cart?page=${currentCartPage}`);
+    console.log(cart.data);
+    let page = cart.data.page;
+    for(let item of cart.data.products){
         // console.log(item[0])
         innerHTML +=`
         <div id='cart${item.id}' class="cart-row">
@@ -79,28 +90,48 @@ async function showCart(e){
             </span>
         </div>
         `;
-        total = total+ (item.price);
+        total = total+ parseFloat(item.price);
     }
-    // console.log(total.toFixed(2))
+    console.log(total.toFixed(2));
 
-    innerHTML +=`</div>
-                <div class='cart-total'>
-                <span>
-                <span class='total-title'><strong>Total</strong></span>
-                $<span id='total-value'>${total.toFixed(2)}</span>
-                </span>
-                </div>
-                <div>
-                <button class='purchase-btn'>Purchase</button>
-                </div>
-                </div>`
-    body.innerHTML =body.innerHTML+innerHTML;
+    // innerHTML +=`</div>
+    //             <div class='cart-total'>
+    //             <span>
+    //             <span class='total-title'><strong>Total</strong></span>
+    //             $<span id='total-value'>${total.toFixed(2)}</span>
+    //             </span>
+    //             </div>
+    //             <div>
+    //             <button class='purchase-btn'>Purchase</button>
+    //             </div>
+    //             </div>`
+    cartItemsDiv.innerHTML=innerHTML;
+    
+    parentElement.children[4].firstElementChild.children[1].innerHTML =total.toFixed(2);
+    // (document.createTextNode());
+    let pageBtninnerHTML =`` ;
+    if(cart.data.hasPreviouspage){
+        pageBtninnerHTML = `<btn class='page-btn'>${page-1}</btn>'`
+    }
+    pageBtninnerHTML+=`<btn class='page-btn current'>${page}</btn>`
+    if(cart.data.hasNextPage){
+        pageBtninnerHTML+=`<btn class='page-btn'>${page+1}</btn>`
+    }
+    cartPageButtons.innerHTML=pageBtninnerHTML;
+    parentElement.classList.remove('notNow');
 
 }
 
 document.addEventListener('DOMContentLoaded',IndexPage);
 
-
+cartPageButtons.addEventListener('click', (e)=>{
+    if(e.target.classList.contains('page-btn')){
+        if(!e.target.classList.contains('current')){
+            currentCartPage = e.target.firstChild.data;
+            showCart(e);
+        }
+    }
+})
 
 function IndexPage(e){
     
@@ -132,7 +163,7 @@ function IndexPage(e){
             }
             else{
                 merchDivision.parentElement.classList.remove('notNow');
-                merchInnerHTML +=  `<div id="merch${i.id}" class="merch">
+                merchInnerHTML +=  `<div id="${i.id}" class="merch">
                 <h2>${i.title}</h2>
                 <div class="img-container">
                     <img class='img' src="${i.imageURL}" alt="Lite teesko">
@@ -173,6 +204,49 @@ pageButtonDOM.addEventListener('click',(e)=>{
         IndexPage(e);
 
     }
+})
+
+purchaseButton.addEventListener('click',()=>{
+    axios.get(`http://localhost:3000/orders`).then(res =>{
+        if(res.data.success){
+            console.log(res);
+            let div = document.createElement('div');
+            let text = document.createTextNode(`Your order placed successfully. Your orderID is ${res.data.orderid}`);
+            div.appendChild(text);
+            div.style.position = 'fixed';
+            div.style.bottom='0';
+            div.style.right='0';
+            // div.style.width='20%';
+            div.style.fontSize='17px';
+            div.style.fontWeight='bold';
+            div.style.padding='30px 40px';
+            div.style.backgroundColor = '#56CCF2';
+            div.style.margin = '30px';
+            div.style.borderRadius = '5px';       
+            document.body.appendChild(div);
+            setTimeout(()=>{div.style.display='none'},2000);
+
+        }
+
+        else{
+            let div = document.createElement('div');
+            let text = document.createTextNode(` ${res.data.error}`);
+            div.appendChild(text);
+            div.style.position = 'fixed';
+            div.style.bottom='0';
+            div.style.right='0';
+            // div.style.width='20%';
+            div.style.fontSize='17px';
+            div.style.fontWeight='bold';
+            div.style.padding='30px 40px';
+            div.style.backgroundColor = '#56CCF2';
+            div.style.margin = '30px';
+            div.style.borderRadius = '5px';       
+            document.body.appendChild(div);
+            setTimeout(()=>{div.style.display='none'},2000);
+        }
+        
+    });
 })
 
 /* <div id="album1" class="album">
