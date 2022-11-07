@@ -74,7 +74,7 @@ async function showCart(e){
     console.log(cart.data);
     let page = cart.data.page;
     for(let item of cart.data.products){
-        // console.log(item[0])
+        console.log(item[0])
         innerHTML +=`
         <div id='cart${item.id}' class="cart-row">
             <span class='cart-item cart-column'>
@@ -249,6 +249,8 @@ purchaseButton.addEventListener('click',()=>{
     });
 })
 
+
+
 /* <div id="album1" class="album">
                 <h2>Album 1</h2>
                 <div class="img-container">
@@ -261,3 +263,4 @@ purchaseButton.addEventListener('click',()=>{
                 </div>
                 
             </div> */
+

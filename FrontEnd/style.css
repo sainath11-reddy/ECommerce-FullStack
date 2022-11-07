@@ -439,3 +439,25 @@ footer .footer-icons{
     color: white;
     cursor: pointer;
 }
+
+.orders-list{
+    display: block;
+    text-align: center;
+    
+}
+.orders{
+    display: flex;
+    justify-content: center;
+}
+
+
+.image-container{
+    overflow: hidden;
+    height: 100px;
+    width: 100px;
+}
+.prod-container img{
+    object-fit: cover;
+    height: 75px;
+    width: 75px;
+}
